@@ -1,5 +1,7 @@
 FROM myoung34/github-runner:latest
 
+WORKDIR /home/runner/work
+
 # Update and install base dependencies
 RUN apt-get update && apt-get install -y \
     software-properties-common \
@@ -40,7 +42,3 @@ RUN pip3 install aws-sam-cli
 # Clean up
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Create tool cache directory with proper permissions
-RUN mkdir -p $RUNNER_WORKDIR && \
-    chmod -R 777 $RUNNER_WORKDIR
