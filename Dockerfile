@@ -1,7 +1,5 @@
 FROM myoung34/github-runner:latest
 
-WORKDIR /home/runner/work
-
 # Update and install base dependencies
 RUN apt-get update && apt-get install -y \
     software-properties-common \
