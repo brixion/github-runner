@@ -3,7 +3,7 @@ FROM myoung34/github-runner:latest
 
 COPY --from=runnerContainerHooks /static/runner_container_hooks.js /runner_container_hooks.js
 
-ENV RUNNER_HOME=/home/runner/actions-runner/
+ENV RUNNER_HOME=/actions-runner/
 ENV ACTIONS_RUNNER_CONTAINER_HOOKS=/runner_container_hooks.js
 
 # Update and install base dependencies
