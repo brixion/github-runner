@@ -1,5 +1,11 @@
 FROM myoung34/github-runner:latest
 
+FROM ghcr.io/alexander-heimbuch/github-runner-container-hooks:latest as runnerContainerHooks
+COPY --from=runnerContainerHooks /static/runner_container_hooks.js /runner_container_hooks.js
+# Adapt accordingly
+ENV RUNNER_HOME=/home/docker/actions-runner/ 
+ENV ACTIONS_RUNNER_CONTAINER_HOOKS=/runner_container_hooks.js
+
 # Update and install base dependencies
 RUN apt-get update && apt-get install -y \
     software-properties-common \
