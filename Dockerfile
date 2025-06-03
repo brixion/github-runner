@@ -1,8 +1,22 @@
+# Stage 1: Get the container hooks -> https://github.com/actions/runner/issues/406#issuecomment-2701730334
 FROM ghcr.io/alexander-heimbuch/github-runner-container-hooks:latest as runnerContainerHooks
+
+# Stage 2: Main runner image
 FROM myoung34/github-runner:latest
 
+# Copy the container hooks from the first stage
 COPY --from=runnerContainerHooks /static/runner_container_hooks.js /runner_container_hooks.js
 
+# Create the directory structure that alexander-heimbuch hooks expect
+# Map to actual myoung34 runner structure
+RUN mkdir -p /externals \
+    && mkdir -p /_work \
+    && mkdir -p /_github_home \
+    && mkdir -p /_github_workflow \
+    && ln -sf /actions-runner/externals /externals/actions-runner \
+    && chown -R runner:runner /externals /_work /_github_home /_github_workflow
+
+# Set environment variables for container hooks
 ENV RUNNER_HOME=/
 ENV ACTIONS_RUNNER_CONTAINER_HOOKS=/runner_container_hooks.js
 
