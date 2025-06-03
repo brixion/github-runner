@@ -7,17 +7,12 @@ FROM myoung34/github-runner:latest
 # Copy the container hooks from the first stage
 COPY --from=runnerContainerHooks /static/runner_container_hooks.js /runner_container_hooks.js
 
-# Create the directory structure that alexander-heimbuch hooks expect
-# Map to actual myoung34 runner structure
-RUN mkdir -p /externals \
-    && mkdir -p /_work \
-    && mkdir -p /_github_home \
-    && mkdir -p /_github_workflow \
-    && ln -sf /actions-runner/externals /externals/actions-runner \
-    && chown -R runner:runner /externals /_work /_github_home /_github_workflow
+# Create the externals directory that alexander-heimbuch hooks expect
+RUN mkdir -p /home/runner/actions-runner/externals \
+    && chown -R runner:runner /home/runner/actions-runner/externals
 
-# Set environment variables for container hooks
-ENV RUNNER_HOME=/
+# Set environment variables for container hooks - corrected path for myoung34's actual structure
+ENV RUNNER_HOME=/home/runner/actions-runner/
 ENV ACTIONS_RUNNER_CONTAINER_HOOKS=/runner_container_hooks.js
 
 # Update and install base dependencies
