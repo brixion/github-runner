@@ -1,7 +1,7 @@
 FROM ghcr.io/actions/actions-runner:latest
 
 # Update and install base dependencies
-RUN apt-get update && apt-get install -y \
+RUN apt install -y \
     software-properties-common \
     curl \
     wget \
