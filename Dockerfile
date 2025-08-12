@@ -1,11 +1,13 @@
 FROM ghcr.io/actions/actions-runner:latest
 
+USER root
+
 # Install Node.js (newer version than what comes with the base image)
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 # Update and install base dependencies
-RUN sudo apt update \
- && sudo apt install -y --no-install-recommends \
+RUN apt update \
+ && apt install -y --no-install-recommends \
     software-properties-common \
     curl \
     wget \
@@ -31,7 +33,7 @@ RUN sudo apt update \
     pkg-config \
     yamllint \
     nodejs \
- && sudo apt clean \
+ && apt clean \
  && rm -rf /var/lib/apt/lists/*
 
 # Install yarn
