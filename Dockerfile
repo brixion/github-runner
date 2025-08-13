@@ -47,7 +47,8 @@ ENV NPM_CONFIG_PREFIX=/home/runner/.npm-global
 # 2. Add the new global bin directory to the PATH
 ENV PATH=$NPM_CONFIG_PREFIX/bin:$PATH
 # 3. Give the runner user ownership of this new directory ONLY
-RUN chown -R runner:runner /home/runner/.npm-global
+RUN chown -R runner:runner /home/runner/.npm-global \
+ && chown -R 1001:1001 /home/runner/.npm
 # --- END OF NPM CONFIGURATION ---
 
 # Install global npm packages and AWS SAM CLI
