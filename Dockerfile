@@ -40,6 +40,12 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
  && apt clean \
  && rm -rf /var/lib/apt/lists/*
 
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+ && unzip awscliv2.zip \
+ && ./aws/install \
+ && rm -rf awscliv2.zip aws
+
 # --- CONFIGURE NPM FOR GLOBAL INSTALLS AS NON-ROOT ---
 # 1. Create a directory for global packages and set npm to use it
 RUN mkdir -p /home/runner/.npm-global \
