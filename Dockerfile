@@ -41,3 +41,5 @@ RUN npm install -g yarn
 
 # Install AWS SAM CLI
 RUN pip3 install aws-sam-cli
+
+USER runner
