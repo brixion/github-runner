@@ -2,47 +2,50 @@ FROM ghcr.io/actions/actions-runner:latest
 
 USER root
 
-# Install Node.js (newer version than what comes with the base image)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-
 # Update and install base dependencies
-RUN apt update \
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+ && apt update \
  && apt install -y --no-install-recommends \
-    software-properties-common \
-    curl \
-    wget \
-    git \
-    git-lfs \
-    unzip \
-    zip \
-    build-essential \
+    # System build tools
     autoconf \
     automake \
+    build-essential \
+    libcurl4-openssl-dev \
+    libonig-dev \
+    libssl-dev \
     libtool \
+    libxml2-dev \
+    libzip-dev \
     m4 \
+    pkg-config \
+    zlib1g-dev \
+    # Git
+    git \
+    git-lfs \
+    # Node.js (installed via nodesource script)
+    nodejs \
+    # Python
     python3 \
     python3-pip \
+    # General utilities
+    curl \
     openssh-client \
     rsync \
-    zlib1g-dev \
-    libxml2-dev \
-    libssl-dev \
-    libonig-dev \
-    libzip-dev \
-    libcurl4-openssl-dev \
-    pkg-config \
+    software-properties-common \
+    unzip \
+    wget \
+    zip \
+    # Linters/Formatters
     yamllint \
-    nodejs \
  && apt clean \
  && rm -rf /var/lib/apt/lists/*
 
-# Install yarn
-RUN npm install -g yarn
+# Install global npm packages and AWS SAM CLI
+RUN npm install -g yarn @redocly/cli \
+ && pip3 install --no-cache-dir aws-sam-cli
 
-# Install AWS SAM CLI
-RUN pip3 install aws-sam-cli
-
-RUN chown -R runner:runner /usr/lib
-RUN chown -R runner:runner /usr/bin
+# Give correct permissions to user runner
+RUN chown -R runner:runner /usr/libs \
+ && chown -R runner:runner /usr/bin
 
 USER runner
