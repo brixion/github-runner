@@ -3,7 +3,7 @@ FROM ghcr.io/actions/actions-runner:latest
 USER root
 
 # Update and install base dependencies
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
  && apt update \
  && apt install -y --no-install-recommends \
     # System build tools
