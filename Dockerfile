@@ -46,6 +46,7 @@ RUN npm install -g yarn @redocly/cli \
 
 # Give correct permissions to user runner
 RUN chown -R runner:runner /usr/lib \
- && chown -R runner:runner /usr/bin
+ && chown -R runner:runner /usr/bin \
+ && chown -R 0:0 /usr/bin/sudo \
 
 USER runner
