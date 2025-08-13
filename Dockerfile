@@ -42,18 +42,20 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
 
 # --- CONFIGURE NPM FOR GLOBAL INSTALLS AS NON-ROOT ---
 # 1. Create a directory for global packages and set npm to use it
-RUN mkdir -p /home/runner/.npm-global
+RUN mkdir -p /home/runner/.npm-global \
+ && mkdir -p /home/runner/.npm
 ENV NPM_CONFIG_PREFIX=/home/runner/.npm-global
 # 2. Add the new global bin directory to the PATH
 ENV PATH=$NPM_CONFIG_PREFIX/bin:$PATH
-# 3. Give the runner user ownership of this new directory ONLY
-RUN chown -R runner:runner /home/runner/.npm-global \
- && mkdir -p /home/runner/.npm \
- && chown -R 1001:1001 /home/runner/.npm
 # --- END OF NPM CONFIGURATION ---
 
 # Install global npm packages and AWS SAM CLI
 RUN npm install -g yarn @redocly/cli \
  && pip3 install --no-cache-dir aws-sam-cli
+
+# --- FIX PERMISSIONS ---
+# After root has run npm, change ownership of the cache and global install
+# directories to the runner user. This is the crucial step.
+RUN chown -R runner:runner /home/runner/.npm /home/runner/.npm-global
 
 USER runner
