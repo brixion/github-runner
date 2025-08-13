@@ -48,6 +48,7 @@ ENV NPM_CONFIG_PREFIX=/home/runner/.npm-global
 ENV PATH=$NPM_CONFIG_PREFIX/bin:$PATH
 # 3. Give the runner user ownership of this new directory ONLY
 RUN chown -R runner:runner /home/runner/.npm-global \
+ && mkdir -p /home/runner/.npm \
  && chown -R 1001:1001 /home/runner/.npm
 # --- END OF NPM CONFIGURATION ---
 
