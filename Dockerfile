@@ -45,7 +45,7 @@ RUN npm install -g yarn @redocly/cli \
  && pip3 install --no-cache-dir aws-sam-cli
 
 # Give correct permissions to user runner
-RUN chown -R runner:runner /usr/libs \
+RUN chown -R runner:runner /usr/lib \
  && chown -R runner:runner /usr/bin
 
 USER runner
