@@ -43,5 +43,6 @@ RUN npm install -g yarn
 RUN pip3 install aws-sam-cli
 
 RUN chown -R runner:runner /usr/lib
+RUN chown -R runner:runner /usr/bin
 
 USER runner
