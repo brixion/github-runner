@@ -25,6 +25,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     # Git
     git \
     git-lfs \
+    gh \
     # Node.js (installed via nodesource script)
     nodejs \
     # Python
