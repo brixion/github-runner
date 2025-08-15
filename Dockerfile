@@ -2,10 +2,13 @@ FROM ghcr.io/actions/actions-runner:latest
 
 USER root
 
+# Set shell with pipefail for better error handling
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 # Update and install base dependencies
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
- && apt update \
- && apt install -y --no-install-recommends \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends \
     # System build tools
     autoconf \
     automake \
@@ -37,7 +40,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     zip \
     # Linters/Formatters
     yamllint \
- && apt clean \
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
 # Install AWS CLI
