@@ -60,7 +60,7 @@ ENV PATH=$NPM_CONFIG_PREFIX/bin:$PATH
 # --- END OF NPM CONFIGURATION ---
 
 # Install global npm packages and AWS SAM CLI
-RUN npm install -g yarn @redocly/cli \
+RUN npm install -g yarn @redocly/cli typescript \
  && pip3 install --no-cache-dir aws-sam-cli
 
 # --- FIX PERMISSIONS ---
