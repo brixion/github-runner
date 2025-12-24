@@ -18,12 +18,14 @@ This image comes with the following software and tools pre-installed:
 
 *   **Node.js 18.x**: A modern version of Node.js for JavaScript-based tools and applications.
 *   **Python 3**: The latest stable version of Python available in the base image's repositories.
+*   **PHP 8.1, 8.2, 8.3, 8.4,8.5**: Multiple PHP versions with common extensions pre-installed (mbstring, intl, mysqli, pdo_mysql, gd, xml, zip, curl, bcmath, opcache). PHP 8.5 is set as the default `php` command, while all versions are accessible via `php8.1`, `php8.2`, `php8.3`, `php8.4` and `php8.5`.
 
 ### Package Managers
 
 *   **npm** (via Node.js)
 *   **yarn**: A popular JavaScript package manager.
 *   **pip3** (via Python 3)
+*   **Composer**: PHP dependency manager, installed globally and available system-wide.
 
 ### Cloud & DevOps Tools
 
