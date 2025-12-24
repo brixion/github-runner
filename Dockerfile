@@ -1,4 +1,4 @@
-FROM ghcr.io/actions/actions-runner:latest
+FROM ghcr.io/actions/actions-runner:2.329.0
 
 USER root
 
@@ -44,10 +44,11 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# Add PHP repository and install PHP 8.1, 8.2, and 8.3
+# Add PHP repository and install PHP 8.1, 8.2, 8.3, 8.4, 8.5 and common extensions
 RUN add-apt-repository -y ppa:ondrej/php \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
+
     # PHP 8.1 with common extensions
     php8.1 \
     php8.1-cli \
@@ -55,10 +56,14 @@ RUN add-apt-repository -y ppa:ondrej/php \
     php8.1-curl \
     php8.1-gd \
     php8.1-mbstring \
+    php8.1-mysqli \
+    php8.1-pdo-mysql \
     php8.1-xml \
     php8.1-zip \
     php8.1-bcmath \
+    php8.1-opcache \
     php8.1-intl \
+
     # PHP 8.2 with common extensions
     php8.2 \
     php8.2-cli \
@@ -66,10 +71,14 @@ RUN add-apt-repository -y ppa:ondrej/php \
     php8.2-curl \
     php8.2-gd \
     php8.2-mbstring \
+    php8.2-mysqli \
+    php8.2-pdo-mysql \
     php8.2-xml \
     php8.2-zip \
     php8.2-bcmath \
     php8.2-intl \
+    php8.2-opcache \
+
     # PHP 8.3 with common extensions
     php8.3 \
     php8.3-cli \
@@ -77,15 +86,57 @@ RUN add-apt-repository -y ppa:ondrej/php \
     php8.3-curl \
     php8.3-gd \
     php8.3-mbstring \
+    php8.3-mysqli \
+    php8.3-pdo-mysql \
     php8.3-xml \
     php8.3-zip \
     php8.3-bcmath \
     php8.3-intl \
+    php8.3-opcache \
+
+    # PHP 8.4 with common extensions
+    php8.4 \
+    php8.4-cli \
+    php8.4-common \
+    php8.4-curl \
+    php8.4-gd \
+    php8.4-mbstring \
+    php8.4-mysqli \
+    php8.4-pdo-mysql \
+    php8.4-xml \
+    php8.4-zip \
+    php8.4-bcmath \
+    php8.4-intl \
+    php8.4-opcache \
+
+    # PHP 8.5 with common extensions
+    php8.5 \
+    php8.5-cli \
+    php8.5-common \
+    php8.5-curl \
+    php8.5-gd \
+    php8.5-mbstring \
+    php8.5-mysqli \
+    php8.5-pdo-mysql \
+    php8.5-xml \
+    php8.5-zip \
+    php8.5-bcmath \
+    php8.5-intl \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+# Configure PHP: Register all PHP versions and set php8.5 as default
+RUN update-alternatives --install /usr/bin/php php /usr/bin/php8.1 81 \
+ && update-alternatives --install /usr/bin/php php /usr/bin/php8.2 82 \
+ && update-alternatives --install /usr/bin/php php /usr/bin/php8.3 83 \
+ && update-alternatives --install /usr/bin/php php /usr/bin/php8.4 84 \
+ && update-alternatives --install /usr/bin/php php /usr/bin/php8.5 85 \
+ && update-alternatives --set php /usr/bin/php8.5
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- \
+    --install-dir=/usr/local/bin \
+    --filename=composer \
  && chmod +x /usr/local/bin/composer
 
 # Install AWS CLI
