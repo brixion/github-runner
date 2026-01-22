@@ -156,7 +156,7 @@ ENV PATH=$NPM_CONFIG_PREFIX/bin:$PATH
 
 # Install global npm packages and AWS SAM CLI
 RUN npm install -g yarn @redocly/cli typescript \
- && pip3 install --no-cache-dir aws-sam-cli
+ && pip3 install --no-cache-dir --break-system-packages aws-sam-cli
 
 # --- FIX PERMISSIONS ---
 # After root has run npm, change ownership of the cache and global install
