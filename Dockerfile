@@ -5,8 +5,12 @@ ENV PHP_VERSION_DEFAULT="8.5"
 
 USER root
 
+# Set shell with pipefail for better error handling
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 RUN usermod -aG sudo runner \
-  && mkdir -m 777 -p /home/runner \
+  && mkdir -p /home/runner \
+  && chmod 777 /home/runner \
   && sed -i 's/%sudo\s.*/%sudo ALL=(ALL:ALL) NOPASSWD : ALL/g' /etc/sudoers
 
 # Update and install base dependencies
@@ -121,7 +125,7 @@ RUN set -ex \
         { [ -e /usr/bin/"$tool""$DEFAULT_PHP_VERSION" ] && $SUDO update-alternatives --set $tool /usr/bin/"$tool""$DEFAULT_PHP_VERSION" || true; } \
       done \
       && $SUDO rm -rf /var/lib/apt/lists/* /tmp/* /var/cache/* /usr/share/doc/* /usr/share/man/* \
-      && { [ -z "$savedAptMark" ] || $SUDO apt-mark manual $savedAptMark > /dev/null; } \
+      && { [ -z "$savedAptMark" ] || echo "$savedAptMark" | xargs -r $SUDO apt-mark manual > /dev/null; } \
       && $SUDO find /usr/local -type f -executable -exec ldd '{}' ';' \
         | awk '/=>/ { print $(NF-1) }' \
         | sort -u \
