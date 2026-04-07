@@ -125,7 +125,7 @@ RUN set -ex \
         { [ -e /usr/bin/"$tool""$DEFAULT_PHP_VERSION" ] && $SUDO update-alternatives --set $tool /usr/bin/"$tool""$DEFAULT_PHP_VERSION" || true; } \
       done \
       && $SUDO rm -rf /var/lib/apt/lists/* /tmp/* /var/cache/* /usr/share/doc/* /usr/share/man/* \
-      && { [ -z "$savedAptMark" ] || echo "$savedAptMark" | xargs -r $SUDO apt-mark manual > /dev/null; } \
+      && { [ -z "$savedAptMark" ] || $SUDO apt-mark manual $savedAptMark > /dev/null; } \
       && $SUDO find /usr/local -type f -executable -exec ldd '{}' ';' \
         | awk '/=>/ { print $(NF-1) }' \
         | sort -u \
