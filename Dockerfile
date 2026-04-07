@@ -101,9 +101,14 @@ RUN set -ex \
       && $SUDO cp -r /etc/apt/sources.list.d /etc/apt/sources.list.d.save \
       && for v in $PHP_VERSIONS; do \
            $SUDO apt-get install -y --no-install-recommends php"$v" \
+           php"$v"-cli \
+           php"$v"-common \
            php"$v"-dev \
+           php"$v"-bcmath \
            php"$v"-curl \
+           php"$v"-gd \
            php"$v"-mbstring \
+           php"$v"-opcache \
            php"$v"-xml \
            php"$v"-intl \
            php"$v"-mysql \
