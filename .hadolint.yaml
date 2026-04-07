@@ -4,3 +4,4 @@ ignored:
   - DL3008 # Pin versions in apt get install
   - DL3013 # Pin versions in pip install
   - DL3016 # Pin versions in npm install
+  - SC2086 # Double quote to prevent globbing and word splitting
