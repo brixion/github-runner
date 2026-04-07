@@ -139,6 +139,16 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --filename=composer \
  && chmod +x /usr/local/bin/composer
 
+# Install global PHP QA tools needed by workflows that don't run composer install.
+# (php-cs-fixer and phpcs are invoked directly in lint workflows.)
+RUN curl -fsSL https://cs.symfony.com/download/php-cs-fixer-v3.phar -o /usr/local/bin/php-cs-fixer \
+ && chmod +x /usr/local/bin/php-cs-fixer \
+ && mkdir -p /opt/composer \
+ && COMPOSER_HOME=/opt/composer composer global require --no-interaction --no-progress squizlabs/php_codesniffer:^3 phpstan/phpstan:^2 \
+ && ln -sf /opt/composer/vendor/bin/phpcs /usr/local/bin/phpcs \
+ && ln -sf /opt/composer/vendor/bin/phpcbf /usr/local/bin/phpcbf \
+ && ln -sf /opt/composer/vendor/bin/phpstan /usr/local/bin/phpstan
+
 # Install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
  && unzip awscliv2.zip \
