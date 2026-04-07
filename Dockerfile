@@ -129,7 +129,7 @@ RUN set -ex \
       && $SUDO find /usr/local -type f -executable -exec ldd '{}' ';' \
         | awk '/=>/ { print $(NF-1) }' \
         | sort -u \
-        | xargs -r dpkg-query --search \
+        | xargs -r -n 1 /bin/bash -c 'dpkg-query --search "$1" 2>/dev/null || true' _ \
         | cut -d: -f1 \
         | sort -u \
         | xargs -r $SUDO apt-mark manual \
