@@ -108,12 +108,12 @@ RUN set -ex \
            php"$v"-curl \
            php"$v"-gd \
            php"$v"-mbstring \
-           php"$v"-opcache \
            php"$v"-xml \
            php"$v"-intl \
            php"$v"-mysql \
            php"$v"-pgsql \
-           php"$v"-zip; \
+           php"$v"-zip \
+         && ($SUDO apt-get install -y --no-install-recommends php"$v"-opcache 2>/dev/null || true); \
          done \
       && $SUDO curl -o /usr/bin/systemctl -sL https://raw.githubusercontent.com/shivammathur/node-docker/main/systemctl-shim \
       && $SUDO chmod a+x /usr/bin/systemctl \
