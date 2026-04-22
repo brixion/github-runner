@@ -1,4 +1,4 @@
-FROM ghcr.io/actions/actions-runner:2.333.1
+FROM ghcr.io/actions/actions-runner:2.334.0
 ARG PHP_VERSION=all
 ENV PHP_VERSION_ALL="8.1 8.2 8.3 8.4 8.5"
 ENV PHP_VERSION_DEFAULT="8.5"
